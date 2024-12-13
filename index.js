@@ -1,5 +1,5 @@
 // --- DECLARATIONS ---
-const freshGays = [
+let freshGays = [
 	"Cavetown",
 	"Girl in Red",
 	"Chapell Roan",
@@ -73,7 +73,7 @@ const freshGays = [
 	"Zwyntar",
 ];
 
-const usedGays = [];
+let usedGays = [];
 
 const getFreshGay = () => {
 	if (freshGays.length <= 0) return "n/a";
@@ -85,14 +85,41 @@ const getFreshGay = () => {
 	return gay;
 }
 
+const resetGays = () => {
+	freshGays = [...freshGays, ...usedGays];
+	usedGays = [];
+}
+
+function printBingo(amnt = document.getElementById("amnt").value) {
+	amnt--;
+
+	const t = document.getElementsByTagName("table")[0];
+
+	const tmp_ts = new Array(amnt);
+	for (let i = 0; i < amnt; i++) {
+		tmp_ts[i] = t.cloneNode(true);
+		fillBingo(tmp_ts[i]);
+		document.body.appendChild(tmp_ts[i]);
+	}
+
+	window.print();
+
+	for (let i = 0; i < amnt; i++) {
+		tmp_ts[i].remove();
+	}
+}
+
+function fillBingo(table) {
+	const data = table.querySelectorAll("td");
+	data.forEach((d, i) => {
+		if (i == 12) {
+			d.innerText = "FREI";
+			return;
+		}
+		d.innerText = getFreshGay();
+	});
+	resetGays();
+}
 
 // --- START ---
-const data = document.querySelectorAll("td");
-data.forEach((d, i) => {
-	if (i == 12) {
-		d.innerText = "FREI";
-		return;
-	}
-	d.innerText = getFreshGay();
-});
-
+fillBingo(document.getElementsByTagName("table")[0])

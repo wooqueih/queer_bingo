@@ -1,64 +1,122 @@
+<!DOCTYPE html>
+
 <head>
 	<title>Gay people Bingo</title>
 	<script src="https://cdn.tailwindcss.com"></script>
 	<style>
+		:root {
+			--w-full: min(94dvw, 94dvh);
+			--w-bing: calc(var(--w-full)/5);
+			--m: calc((min(100dvw, 100dvh) - var(--w-full)) * 0.5);
+		}
+
 		body {
-			margin: 0;
-			padding: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100dvw;
+			overflow: hidden;
 		}
 
 		table {
-			margin: 20px;
-			width: 1000px;
+			page-break-after: always;
+			width: var(--w-full);
+			position: relative;
+			left: var(--m);
+			top: var(--m);
 			border-collapse: collapse;
 		}
 
 		td {
-			width: 200px;
-			height: 200px;
+			width: var(--w-bing);
+			height: var(--w-bing);
 			text-align: center;
 			border: 2px solid black;
+		}
+
+		button {
+			background-color: white;
+		}
+
+		button:hover {
+			background-color: lightgrey;
+		}
+
+		#settings {
+			position: absolute;
+			right: 0;
+			top: 20dvh;
+
+			padding: 5px 10px 5px 15px;
+
+			display: flex;
+			flex-flow: column;
+			align-items: center;
+
+			background: white;
+			z-index: 1;
+			border: 2px solid black;
+			border-right: 0;
+
+		}
+
+		#amnt {
+			width: 60px;
+			padding: 5px;
+		}
+
+		@media print {
+			#settings {
+				display: none;
+			}
 		}
 	</style>
 </head>
 
 <body>
-	<table>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-	</table>
+	<form id="settings" onsubmit="printBingo()">
+		<label for="amnt" class="w-fit">Anzahl Bingos</label>
+		<input id="amnt" value="1" min="1" max="999" type="number" />
+		<button class="w-full" type="submit">Drucken</button>
+	</form>
+	<div id="ts">
+		<table>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
 	<script src="index.js"></script>
 </body>
