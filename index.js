@@ -1,4 +1,6 @@
 // --- DECLARATIONS ---
+const CV_SCALE = 2;
+
 let freshGays = [
 	"Cavetown",
 	"Girl in Red",
@@ -121,5 +123,53 @@ function fillBingo(table) {
 	resetGays();
 }
 
+function refreshMainBingo() {
+	stamps.splice(0);
+	fillBingo(document.getElementsByTagName("table")[0]);
+	requestAnimationFrame(() => drawStamps(ctx));
+}
+
+const stamps = [];
+function drawStamps(ctx) {
+	ctx.beginPath();
+	ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+	ctx.closePath();
+	ctx.fillStyle = "white";
+	ctx.fill();
+
+	stamps.forEach(stamp => {
+		ctx.beginPath();
+		ctx.arc(stamp.x * CV_SCALE * t.clientWidth, stamp.y * CV_SCALE * t.clientHeight, t.clientWidth * 0.18, 0, Math.PI * 2);
+		ctx.closePath();
+		ctx.fillStyle = "#FFABAB";
+		ctx.fill();
+	});
+}
+
 // --- START ---
-fillBingo(document.getElementsByTagName("table")[0])
+refreshMainBingo();
+
+const b = document.body;
+const t = document.getElementsByTagName("table")[0];
+
+const cv = document.getElementById("bingo-stamping");
+const ctx = cv.getContext("2d");
+
+cv.style.filter = "blur(2px)";
+cv.width = window.innerWidth * CV_SCALE;
+cv.height = window.innerHeight * CV_SCALE;
+
+window.addEventListener("resize", e => {
+	cv.width = window.innerWidth * CV_SCALE;
+	cv.height = window.innerHeight * CV_SCALE;
+	requestAnimationFrame(() => drawStamps(ctx));
+});
+
+const settings = document.getElementById("settings");
+b.addEventListener("click", (e) => {
+	if (settings.contains(e.target)) return;
+
+	stamps.push({ x: e.clientX / t.clientWidth, y: e.clientY / t.clientHeight });
+	requestAnimationFrame(() => drawStamps(ctx));
+});
+

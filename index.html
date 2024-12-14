@@ -18,9 +18,11 @@
 			overflow: hidden;
 		}
 
-		table {
+		table,
+		.table {
 			page-break-after: always;
 			width: var(--w-full);
+			height: var(--w-full);
 			position: relative;
 			left: var(--m);
 			top: var(--m);
@@ -35,6 +37,7 @@
 		}
 
 		button {
+			width: 100%;
 			background-color: white;
 		}
 
@@ -42,16 +45,21 @@
 			background-color: lightgrey;
 		}
 
+		button:active {
+			background-color: white;
+		}
+
 		#settings {
 			position: absolute;
 			right: 0;
 			top: 20dvh;
 
-			padding: 5px 10px 5px 15px;
-
 			display: flex;
 			flex-flow: column;
 			align-items: center;
+			gap: 10px;
+
+			padding: 10px 10px 10px 15px;
 
 			background: white;
 			z-index: 1;
@@ -60,13 +68,36 @@
 
 		}
 
+		#settings>* {
+			display: flex;
+			flex-flow: column;
+			align-items: center;
+			gap: 5px;
+		}
+
+		#settings>.seperator {
+			min-width: 100%;
+			border-top: 2px solid black;
+			margin: 5px 0 5px 0;
+		}
+
 		#amnt {
 			width: 60px;
-			padding: 5px;
+			padding: 0 5px;
+		}
+
+		#bingo-stamping {
+			width: 100dvw;
+			height: 100dvh;
+			position: absolute;
+			z-index: -1;
+			background: white;
 		}
 
 		@media print {
-			#settings {
+
+			#settings,
+			#bingo-stamping {
 				display: none;
 			}
 		}
@@ -74,11 +105,16 @@
 </head>
 
 <body>
-	<form id="settings" onsubmit="printBingo()">
-		<label for="amnt" class="w-fit">Anzahl Bingos</label>
-		<input id="amnt" value="1" min="1" max="999" type="number" />
-		<button class="w-full" type="submit">Drucken</button>
-	</form>
+	<div id="settings">
+		<form onsubmit="printBingo()">
+			<!--<label for="amnt" class="w-fit">Anzahl Bingos</label>-->
+			<input id="amnt" value="1" min="1" max="999" type="number" />
+			<button class="w-full" type="submit">Drucken</button>
+		</form>
+		<div class="seperator"></div>
+		<button onclick="refreshMainBingo()">&#x21bb;</button>
+	</div>
+	<canvas id="bingo-stamping"></canvas>
 	<div id="ts">
 		<table>
 			<tr>
